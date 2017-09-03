@@ -1,0 +1,13 @@
+{
+  "name": "ls-plugin-highlight.js",
+  "version": "1.0.0-alpha1",
+  "description": "lecture-slides.js plugin: syntax highlighting with highlight.js",
+  "main": "index.js",
+  "repository": "git@github.com:DennisSchulmeister/ls-plugin-highlight.js.git",
+  "author": "Dennis Schulmeister-Zimolong <dennis@patk.org>",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "highlight.js": "^9.12.0",
+    "jquery": "^3.2.1"
+  }
+}
