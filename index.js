@@ -1,7 +1,7 @@
 /*
  * ls-plugin-highlight.js (https://www.buzzlms.de)
  * © 2017  Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
- * License of this file: 3-clause BSD
+ * License of this file: AGPL 3.0+
  */
 "use strict";
 
