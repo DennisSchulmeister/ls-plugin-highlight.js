@@ -14,7 +14,7 @@ Installation
 ------------
 
  1. Add this plugin to your presentation:
-    `$ yarn add --dev ls-plugin-highlight.js`
+    `$ npm add --save-dev ls-plugin-highlight.js`
  2. Import it in the `index.js` file
  3. Import one of the [stylesheets that come with highlight.js](https://highlightjs.org/static/demo/)
  4. Use the HTML tags below in your presentation
@@ -75,7 +75,7 @@ Copyright
 
 lecture-slides.js: https://www.github.com/DennisSchulmeister/lecture-slides.js <br/>
 This plugin: https://github.com/DennisSchulmeister/ls-plugin-highlight.js <br/>
-© 2017  Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
+© 2017 – 2018 Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as
