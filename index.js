@@ -1,62 +1,123 @@
 /*
- * ls-plugin-highlight.js (https://www.buzzlms.de)
- * © 2017  Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
- * License of this file: AGPL 3.0+
+ * ls-plugin-highlight.js (https://www.wpvs.de)
+ * © 2017 – 2022  Dennis Schulmeister-Zimolong <dennis@pingu-mail.de>
+ * License of this file: BSD 2-clause
  */
 "use strict";
 
-import $ from "jquery";
 import hljs from "highlight.js";
+import { removeSurroundingWhitespace } from "@dschulmeis/ls-utils/string_utils.js";
 
 /**
- * This is a simple HTML plugin for lecture-slides.js. It adds two new HTML
- * tags to create syntax highlighted code examples with highlight.js. Usage:
+ * This is a simple HTML plugin for `@dschulmeis/lecture-slides.js` and
+ * `@dschulmeis/mini-tutorial.js`. It adds two new HTML tags to create syntax
+ * highlighted code examples with highlight.js. Usage:
  *
  *   * `<source-code language="...">` for complete code blocks
- *   *`<src-code language="...">` for inline code snippets
+ *   * `<src-code language="...">` for inline code snippets
+ *
+ * The constructor takes an optional configuration object that can be used
+ * to define the supported languages and change the highlight.js settings:
+ *
+ *   ```javascript
+ *   import HLJS_Language_XML from 'highlight.js/lib/languages/xml';
+ *   import "highlight.js/styles/atom-one-light.css";
+ *
+ *   let plugin = new LS_Plugin_HighlightJS({
+ *       // Supported languages
+ *       languages: {
+ *           "xml": HLJS_Language_XML,
+ *       },
+ *
+ *       // Highlight.js configuration, see highlight.js method configure()
+ *       highlightjs: {
+ *       },
+ *
+ *       // Automatically highlight all <pre><code> elemenets (default: false)
+ *       highlightAll: true,
+ *   });
+ *   ```
+ *
+ * Please note, that by default no languages are available unless they are
+ * explicitly imported like shown above. This is intentional to keep the
+ * download size small.
  */
-class LsPluginHighlightJs {
+export default class LS_Plugin_HighlightJS {
+    /**
+     * Constructor to configure the plugin.
+     * @param {Object} config Configuration values
+     */
+    constructor(config) {
+        // Interpret configuration values
+        this._config = config || {};
+        this._config.languages = this._config.languages || {};
+        this._config.highlightJs = this._config.highlightJs || {ignoreUnescapedHTML: true};
+        this._config.highlightAll = this._config.highlightAll || false;
+
+        // Configure highlight.js and register languages
+        if (this._config.highlightJs) {
+            hljs.configure(this._config.highlightJs);
+        }
+
+        for (let name in this._config.languages) {
+            let language = this._config.languages[name];
+            hljs.registerLanguage(name, language);
+        }
+    }
+
     /**
      * This function replaces all custom HTML tags with standard ones.
      * @param {Element} html DOM node with the slide definitions
-     * @param {Object} utils Utility functions from lecture-slides.js
      */
-    preprocessHtml(html, utils) {
-        let jqHtml = $(html);
-        let sourceCodeElements = jqHtml.find("source-code, src-code");
+    preprocessHtml(html) {
+        // Highlight all <pre><code>
+        if (this._config.highlightAll) {
+            let codeElements = html.querySelectorAll("pre code");
 
-        sourceCodeElements.each(index => {
-            let element = $(sourceCodeElements[index]);
-            let language = element.attr("language") || "";
-            let filename = element.attr("filename") || "";
+            for (let element of codeElements) {
+                try {
+                    element.innerHTML = removeSurroundingWhitespace(element.innerHTML);
+                    hljs.highlightElement(element);
+                } catch(error) {
+                    console.warn("@dschulmeis/ls-plugin-highlight.js:", error);
+                }
+            }
+        }
 
-            let code = element.text();
-            code = utils.trimLines(code);
-            code = utils.shiftLinesLeft(code);
-            code = utils.removeLeadingLinebreaks(code);
-            code = utils.removeTrailingLinebreaks(code);
+        // Replace custom elements <source-code> and <src-code>
+        let sourceCodeElements = html.querySelectorAll("source-code, src-code");
 
-            let result = { value: code };
-
+        for (let element of sourceCodeElements) {
             try {
-                if (language != "") result = hljs.highlight(language, code, true);
-                else result = hljs.highlightAuto(code);
-            } catch(error) {
-                console.warn("ls-plugin-highlight.js:", error);
-            }
+                let language = element.getAttribute("language") || "";
+                let classname = language ? `language-${language}` : "";
 
-            switch (element[0].nodeName) {
-                case "SOURCE-CODE":
+                let code = removeSurroundingWhitespace(element.innerHTML);
+                let newElement = null;
+                let codeElement = null;
+
+                if (element.nodeName === "SOURCE-CODE") {
                     // Block level element
-                    element.replaceWith($.parseHTML(`<pre class="code" data-lang="${filename}"><code>${result.value}</code></pre>`));
-                    break;
-                case "SRC-CODE":
+                    newElement = document.createElement("pre");
+                    newElement.classList.add("code");
+
+                    codeElement = document.createElement("code");
+                    codeElement.classList.add(classname);
+                    codeElement.innerHTML = code;
+
+                    newElement.append(codeElement);
+                } else if (element.nodeName === "SRC-CODE") {
                     // Inline element
-                    element.replaceWith($.parseHTML(`<code data-bind="html: highlighted">${result.value}</code>`));
-                    break;
+                    newElement = codeElement = document.createElement("code");
+                    codeElement.classList.add(classname);
+                    codeElement.innerHTML = code;
+                }
+
+                hljs.highlightElement(codeElement);
+                element.replaceWith(newElement);
+            } catch(error) {
+                console.warn("@dschulmeis/ls-plugin-highlight.js:", error);
             }
-        });
+        }
     }
 }
-
-export default LsPluginHighlightJs;
