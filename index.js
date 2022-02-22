@@ -5,7 +5,7 @@
  */
 "use strict";
 
-import hljs from "highlight.js";
+import hljs from 'highlight.js/lib/core';
 import { removeSurroundingWhitespace } from "@dschulmeis/ls-utils/string_utils.js";
 
 /**
