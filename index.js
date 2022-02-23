@@ -7,6 +7,7 @@
 
 import hljs from 'highlight.js/lib/core';
 import { removeSurroundingWhitespace } from "@dschulmeis/ls-utils/string_utils.js";
+import "./style.css";
 
 /**
  * This is a simple HTML plugin for `@dschulmeis/lecture-slides.js` and

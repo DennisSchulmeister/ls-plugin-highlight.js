@@ -1,6 +1,6 @@
 {
   "name": "@dschulmeis/ls-plugin-highlight.js",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "lecture-slides.js plugin: syntax highlighting with highlight.js",
   "main": "index.js",
   "repository": "git@github.com:DennisSchulmeister/ls-plugin-highlight.js.git",
