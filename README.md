@@ -25,8 +25,8 @@ Example for `@dschulmeis/lecture-slides.js`:
 import SlideshowPlayer from "@dschulmeis/lecture-slides.js";
 
 import LS_Plugin_HighlightJS from "@dschulmeis/ls-plugin-highlight.js";
-import HLJS_Language_XML from '@dschulmeis/ls-plugin-highlight.js/node_modules/highlight.js/lib/languages/xml';
-import "@dschulmeis/ls-plugin-highlight.js/node_modules/highlight.js/styles/atom-one-light.css";
+import HLJS_Language_XML from 'highlight.js/lib/languages/xml';
+import "highlight.js/styles/atom-one-light.css";
 
 window.addEventListener("load", () => {
     let player = new SlideshowPlayer({
