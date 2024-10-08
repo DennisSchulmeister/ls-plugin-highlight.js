@@ -16,7 +16,7 @@ Installation
  1. Add the plugin to your project:
     `$ npm add --save-dev @dschulmeis/ls-plugin-highlight.js`
  2. Import it in the `index.js` file
- 3. Import one the needed [languages that come with highlight.js](https://highlightjs.org/static/demo/)
+ 3. Import the needed [languages that come with highlight.js](https://highlightjs.org/static/demo/)
  4. Use the HTML tags below in your presentation
 
 Example for `@dschulmeis/lecture-slides.js`:
