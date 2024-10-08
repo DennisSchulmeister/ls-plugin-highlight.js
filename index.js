@@ -103,14 +103,14 @@ export default class LS_Plugin_HighlightJS {
                     newElement.classList.add("code");
 
                     codeElement = document.createElement("code");
-                    codeElement.classList.add(classname);
+                    if (classname) codeElement.classList.add(classname);
                     codeElement.innerHTML = code;
 
                     newElement.append(codeElement);
                 } else if (element.nodeName === "SRC-CODE") {
                     // Inline element
                     newElement = codeElement = document.createElement("code");
-                    codeElement.classList.add(classname);
+                    if (classname) codeElement.classList.add(classname);
                     codeElement.innerHTML = code;
                 }
 
