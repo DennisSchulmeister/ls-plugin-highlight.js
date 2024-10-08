@@ -6,11 +6,14 @@
   "repository": "git@github.com:DennisSchulmeister/ls-plugin-highlight.js.git",
   "author": "Dennis Schulmeister-Zimolong <dennis@patk.org>",
   "license": "BSD-2-Clause",
-  "dependencies": {
-    "@dschulmeis/ls-utils": "^1.0.2",
-    "highlight.js": "^11.4.0"
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
       "do-publish": "npm publish --access=public"
+  },
+  "dependencies": {
+    "@dschulmeis/ls-utils": "^1.0.2",
+    "highlight.js": "^11.4.0"
   }
 }
