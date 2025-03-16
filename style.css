@@ -1,4 +1,13 @@
 .hljs {
     background: none !important;
     padding: 0 !important;
+
+    .hljs-line {
+        display: inline-block;
+        width: 100%;
+    }
+
+    .hljs-highlighted {
+        background-color: rgb(250, 250, 220);
+    }
 }
