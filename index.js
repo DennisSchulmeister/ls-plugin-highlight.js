@@ -124,7 +124,8 @@ export default class LS_Plugin_HighlightJS {
         let innerHTML   = codeElement.innerHTML;
         let linebreak   = determineLinebreaks(innerHTML);
         let lines       = linebreak ? innerHTML.split(linebreak) : [innerHTML];
-        lines = lines.slice(0, -1);
+
+        if (!lines[lines.length - 1].trim()) lines = lines.slice(0, -1);
 
         for (let i in lines) {
             lines[i] = `<span class="hljs-line">${lines[i] || " "}</span>`;
